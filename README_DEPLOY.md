@@ -38,11 +38,11 @@ Ve a tu repositorio: https://github.com/csluduena/Milena_Web
 ### Environment Variables
 - `MONGO_URI`: `mongodb+srv://milenaDB:fwpjEE76G51zVOAF@cluster0.bbin0ju.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
 - `SMTP_HOST`: `smtp.gmail.com`
-- `SMTP_USER`: `capitansaltodev@gmail.com`
+- `SMTP_USER`: `milenapaezenglishstudio@gmail.com`
 - `SMTP_PASS`: `puop hjnt usuz tfsp`
 - `ADMIN_PASS`: `admin123`
 - `SITE_URL`: `https://milena-englishstudio.com.ar`
-- `CONTACT_EMAIL`: `capitansaltodev@gmail.com`
+- `CONTACT_EMAIL`: `milenapaezenglishstudio@gmail.com`
 - `PORT`: `3001`
 - `JWT_SECRET`: `mp_english_studio_secret_key_2024`
 
