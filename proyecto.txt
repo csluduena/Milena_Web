@@ -1,0 +1,226 @@
+DESARROLLO: Sitio web para MP English Studio
+Stack técnico
+- Frontend: HTML + TailwindCSS + JavaScript (vanilla). Layout responsive Mobile-first.
+- Backend: Node.js + Express.
+- Base de datos: MongoDB (usar esta conexión): 
+  mongodb+srv://milenaDB:fwpjEE76G51zVOAF@cluster0.bbin0ju.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+- Emails: nodemailer (o servicio SMTP).
+- Autenticación: login básico para /admin (usuario/password via env var).
+- SEO avanzado profesional: SSR/prerender páginas importantes, meta tags dinámicos, Open Graph, Twitter Cards, sitemap.xml, robots.txt, schema.org (Course, Organization, LocalBusiness, BreadcrumbList), carga optimizada de imágenes (webp), lazy-loading, compresión y caché, generación automática de OG images para productos.
+
+Estructura de páginas (UI + contenido recomendado)
+1) Página Principal — **Landing Page**
+   - Meta:
+     • title: "MP English Studio — Ganá fluidez | Clases 1:1 para profesionales"
+     • description: "Ganá fluidez y crecé laboralmente con MP English Studio. Sesiones 1:1 personalizadas, talleres grabados y seguimiento estratégico. Cupos limitados."
+   - Hero (arriba, CTA principal):
+     • H1: "Ganá fluidez y crecé laboralmente."
+     • Subtítulo: "Sin vueltas ni pérdida de tiempo. Sesiones 1:1 para profesionales + talleres prácticos."
+     • CTA primaria (botón): "Quiero sumarme" → abre form (Programa 1:1 profesionales).
+     • CTA secundaria: "Reservá tu nivelación" → enlaza al formulario de nivelación / reserva.
+   - Sección: ¿Qué ofrecemos? (3–4 bullets)
+     • "Sesiones 1:1 con el MP team — plan personalizado."
+     • "Material auténtico y adaptado a tu profesión y hobbies."
+     • "Metodología comunicativa: hablás desde el día uno."
+     • "Acompañamiento estratégico, seguimiento y biblioteca exclusiva."
+   - Sección: Cómo funciona (pasos visuales)
+     1. Diagnóstico y test de nivel (breve).
+     2. Videollamada de 15' para confirmar nivel.
+     3. Plan 100% adaptado a vos.
+     4. Empezás las clases y seguimiento periódico.
+   - Sección: Cursos destacados (mini-cards)
+     • Mostrar 3 cards: 
+       - Programa 1:1 (Profesionales) — link al form (Programa 1:1)
+       - Taller grabado "GANÁ FLUIDEZ" — link al form
+       - Taller LinkedIn / CV de Traducción — link al form
+     • Card layout: título, mini imagen opcional, 2–3 lineas de descripción, precio (opción a esconder), botón "Obtener" → lleva al form correspondiente.
+   - Testimonios (frases cortas)
+   - Footer CTA flotante o banner: "Sumate como profe a MP" → abre form de profe.
+   - Microcopy SEO: marcar keywords en H2/H3: "clases de inglés para profesionales", "curso inglés 1 a 1", "taller ingles grabado".
+
+2) Segunda página — **Sobre Nosotros**
+   - Meta:
+     • title: "Sobre MP English Studio — Metodología y equipo"
+     • description: "MP English Studio crea experiencias de aprendizaje 1:1 para profesionales. Metodología flexible, material personalizado y cupos limitados."
+   - Contenido (resumen optimizado del copy original):
+     • Lead: "Ganá fluidez y crecé laboralmente. Sin vueltas ni pérdida de tiempo."
+     • Párrafo 1 (qué somos): "En MP English Studio diseñamos experiencias para profesionales que valoran su tiempo. No damos clases sueltas: ofrecemos programas diseñados para lograr resultados reales y sostenibles."
+     • Párrafo 2 (metodología): "Combinamos autonomía, acompañamiento cercano y práctica real desde el día uno. Clases 1:1 con enfoque comunicativo: hablás desde la primera sesión."
+     • Párrafo 3 (proceso de incorporación): "Diagnóstico y test breve → Videollamada de 15' → Plan personalizado orientado a subir de nivel."
+     • Párrafo 4 (valor diferencial): "Nos adaptamos a tu vida: material hecho a medida, seguimiento estratégico, biblioteca de recursos y cupos limitados (5 por mes)."
+     • CTA: "Reservá tu nivelación" (enlace al formulario).
+   - Imágenes: incluir 2–3 imágenes relevantes (profesores, aula virtual, ejemplos de material). Alt texts sugeridos incluidos en el bloque “recursos”.
+
+3) Tercera página — **Servicios**
+   - Explicación extendida del **Programa 1:1**: duración típica, frecuencia de sesiones, resultados esperados, ejemplos de actividades, lo que incluye (material, seguimiento).
+   - Bullets: beneficios concretos (fluidez, confianza, foco profesional).
+   - CTA: "Ver servicios disponibles" → lleva a Tienda.
+
+4) **Tienda** (página / sección)
+   - Cada producto (course card) debe mostrar:
+     • Título (obligatorio)
+     • Mini imagen (opcional, configurable mostrar/ocultar)
+     • Descripción corta (1–2 líneas)
+     • Precio (opcional para mostrar, configurable mostrar/ocultar)
+     • Botón "Adquirir" → abre WhatsApp con mensaje precargado
+   - Funcionalidad WhatsApp:
+     • Mensaje precargado: "Hola, vengo de la web, quiero adquirir [TÍTULO_DEL_PRODUCTO]"
+     • Número de WhatsApp: 543417411687 (definido en variables de entorno)
+   - Reglas visuales: cards en grid responsive; CTA "Adquirir" visible y contrastada.
+
+5) Contacto
+   - Form de contacto que envíe a email definido en env var.
+   - Mostrar teléfono y WhatsApp (link directo), email y redes.
+
+6) Footer fijo (visible en cada página, al final)
+   - Incluir exactamente (links):
+     • https://www.instagram.com/milena.englishstudio
+     • https://www.linkedin.com/in/paezmilena/
+     • mailto:milenapaezenglishstudio@gmail.com
+     • https://api.whatsapp.com/send?phone=543417411687
+   - Copyright, accesos rápidos (Tienda, Servicios, Contacto).
+
+Extras y funcionalidad administrativa
+- **Cartel flotante** (esquina inferior derecha): texto "Sumate como profe a MP" → abre: https://docs.google.com/forms/d/1JsUR3YbWHYh3nx4r8WDLIntlX-nXXMZCkByEjFbsHMg/viewform?edit_requested=true
+- **Panel Admin** (/admin):
+  • Login protegido por contraseña (env var).
+  • CRUD de productos/servicios (colección "productos" en MongoDB).
+  • Campos por producto: { title, description, price, showPrice: boolean, imageUrl (nullable), showImage: boolean, order, active }
+  • Funciones: crear, editar, eliminar, reordenar, activar/desactivar, elegir mostrar/ocultar precio y mostrar/ocultar imagen.
+  • Cambios guardados en MongoDB y reflejados en la tienda inmediatamente.
+- API endpoints mínimos:
+  • GET /api/products
+  • GET /api/products/:id
+  • POST /api/admin/products (auth)
+  • PUT /api/admin/products/:id (auth)
+  • DELETE /api/admin/products/:id (auth)
+  • POST /api/contact (enviar email)
+  • POST /api/auth/login (dev-only, simple)
+
+Modelo de datos (MongoDB - colección "productos")
+{
+_id: ObjectId,
+title: String,
+description: String,
+price: Number,
+showPrice: Boolean,
+imageUrl: String | null,
+showImage: Boolean,
+order: Number,
+active: Boolean,
+createdAt: Date,
+updatedAt: Date
+}
+
+SEO avanzado profesional (lista de entregables)
+- Meta titles y descriptions dinámicos por página y por producto.
+- JSON-LD:
+  • Organization + LocalBusiness (datos de contacto).
+  • Course schema para cada curso/producto con price, url, description.
+  • BreadcrumbList.
+- OG/Twitter cards con imagenes optimizadas.
+- Sitemap.xml dinámico + robots.txt.
+- SSR/prerender o uso de server-side rendering para indexables pages.
+- Performance: lazy-loading, image compression, cache headers, gz/opti (brotli).
+- Analytics y Search Console setup (instrucciones para verify).
+- Generar versiones mobile-first y test de Lighthouse >= 90 recomendaciones.
+
+Diseño / UI — Actualización de paleta y tipografías (reemplaza referencias previas)
+- Paleta definitiva:
+  • Navbar (fondo): #4A4A4A
+  • Main/Body (fondo): #e8e1d0
+  • Footer/Header (fondo): #2E2E2E
+  • Tipografía (principal): #333333
+  • Tipografía (acento / links / CTAs): #6B4E31 (marrón cálido, más acorde al diseño)
+- Tipografías (carpeta /public/fonts):
+  • Títulos: LeagueSpartan-Bold.ttf
+  • Texto: Lora-Regular.ttf
+  • Citas/énfasis: Lora-Italic.ttf
+- Notas:
+  • Usar video en hero con overlay decorativo (reproductor_recuadro.gif) en lugar de marco celeste.
+  • Mantener landing compacta y clara (no volcar toda la info).
+  • Responsive 100% con prioridad mobile-first.
+
+Estructura de carpetas sugerida (skeleton)
+- /frontend
+  - /public
+    - /css (tailwind build)
+    - /img (incluir logo.webp)
+    - /js
+  - /views
+    - layout.ejs
+    - index.ejs
+    - about.ejs
+    - services.ejs
+    - shop.ejs
+    - contact.ejs
+- /backend
+  - /routes
+    - index.js
+    - api.js
+    - admin.js
+  - /models
+    - course.js
+  - server.js
+- /.env (variables)
+- /env.txt (copia legible de variables para Cursor)
+- /scripts (build tailwind, deploy)
+- package.json
+
+Entregables esperados
+- Proyecto listo para levantar (npm install && npm run dev).
+- Documentación README: variables de entorno (MONGO_URI, SMTP_HOST, SMTP_USER, SMTP_PASS, ADMIN_PASS, SITE_URL), cómo desplegar (Heroku/Render/VPS).
+- Scripts para generar sitemap y JSON-LD automatizados.
+- Mostrar en README donde cambiar las redes (footer) y dónde están los formularios enlazados.
+
+CONTENIDO EXACTO A INSERTAR (textos listos — Landing + Sobre Nosotros)
+-- LANDING (bloques listos para pegar):
+Hero H1:
+"Ganá fluidez y crecé laboralmente."
+Hero subtitle:
+"Sin vueltas ni pérdida de tiempo. Sesiones 1:1 para profesionales y talleres prácticos diseñados para resultados reales."
+CTA: "Quiero sumarme" (Link → FORM Programa 1:1 profesionales)
+
+Sección ¿Qué ofrecemos? (título + bullets):
+"Tus resultados, en menos tiempo."
+- "Clases 1:1 con el MP team: plan personalizado y práctico."
+- "Material hecho a tu medida: contenidos vinculados a tu área profesional."
+- "Metodología comunicativa: hablás desde el día uno."
+- "Acompañamiento estratégico y seguimiento con acceso a recursos exclusivos."
+
+Sección Cómo funciona (título + pasos)
+"Tres pasos para empezar"
+1. Diagnóstico y test de nivel (breve).
+2. Videollamada de 15' para diseñar tu plan.
+3. Empezás el programa con seguimiento continuo.
+
+Sección Cursos destacados (card intro)
+"Elegí el formato que te sirve"
+- Programa 1:1 — descripción corta: "Clases personalizadas para profesionalizar tu inglés." [Obtener → FORM 1:1]
+- Taller "GANÁ FLUIDEZ" — descripción corta: "Taller grabado para mejorar pronunciación y confianza." [Obtener → FORM Taller]
+- Taller LinkedIn / CV — descripción corta: "Herramientas para conseguir clientes y traducir tu perfil." [Obtener → FORM LinkedIn/CV]
+
+CTA final:
+"Reservá tu nivelación" (link al formulario de nivelación; microcopy: "Enviar comprobante por WhatsApp")
+
+-- SOBRE NOSOTROS (texto listo):
+Título: "MP English Studio — Clases pensadas para profesionales"
+Lead:
+"En MP English Studio no damos clases sueltas: creamos experiencias de aprendizaje hechas a medida para profesionales que valoran su tiempo y quieren resultados concretos."
+Párrafo 1:
+"Nuestra metodología combina autonomía, acompañamiento cercano y práctica real desde el día uno. Creamos material auténtico según tus gustos, hobbies y profesión: el inglés se adapta a vos, no vos al inglés."
+Párrafo 2:
+"Así funciona: un diagnóstico breve y una videollamada de 15 minutos nos permiten diseñar un plan 100% adaptado a tu vida profesional. Tu profe actúa como coach: organiza, motiva y hace seguimiento."
+Párrafo 3:
+"Cupos limitados: solo 5 personas por mes. Si el cupo está lleno, abrimos nuevas vacantes al mes siguiente."
+CTA: "Reservá tu nivelación" → (link al form).
+
+JSON-LD ejemplos (ejecutables)
+- Incluir schema Course y Organization en plantilla del server (ejemplo en README).
+
+NOTAS FINALES
+- Usar Tailwind para estilos; compilar CSS en build step.
+- El admin debe permitir configurar showPrice y showImage por curso desde UI (checkboxes).
+- Asegurar que el botón "Obtener" siempre lleve al formUrl guardado en el curso.
+- Integrar Google Analytics / GTM y dar instrucciones para Search Console.
+- Ajustes estéticos: usar la paleta y tipografías definidas, omitiendo referencias previas de imágenes de estilo.

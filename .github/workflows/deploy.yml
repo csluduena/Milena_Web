@@ -1,0 +1,71 @@
+name: Deploy to Hostinger VPS
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch: # Permite ejecutar manualmente
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: frontend/package-lock.json
+        
+    - name: Install frontend dependencies
+      working-directory: ./frontend
+      run: npm ci
+      
+    - name: Build frontend
+      working-directory: ./frontend
+      run: npm run build
+      
+    - name: Install backend dependencies
+      working-directory: ./backend
+      run: npm ci
+      
+    - name: Deploy to VPS
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USERNAME }}
+        key: ${{ secrets.VPS_SSH_KEY }}
+        port: ${{ secrets.VPS_PORT }}
+        script: |
+          # Navegar al directorio del proyecto
+          cd /var/www/Milena
+          
+          # Hacer pull de los cambios
+          git pull origin main
+          
+          # Instalar dependencias del backend
+          cd backend
+          npm ci --production
+          
+          # Construir el frontend
+          cd ../frontend
+          npm ci
+          npm run build
+          
+          # Reiniciar servicios en tmux
+          echo "Reiniciando backend..."
+          tmux send-keys -t milena_back C-c
+          sleep 3
+          tmux send-keys -t milena_back "cd /var/www/Milena/backend && npm start" Enter
+          
+          echo "Reiniciando frontend..."
+          tmux send-keys -t milena_front C-c
+          sleep 3
+          tmux send-keys -t milena_front "cd /var/www/Milena/frontend && npm start" Enter
+          
+          echo "Deploy completado exitosamente"
+          echo "Backend corriendo en puerto 3044"
+          echo "Frontend corriendo en puerto 3000"
