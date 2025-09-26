@@ -5,14 +5,15 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      
+
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
@@ -21,28 +22,28 @@ jobs:
         cache-dependency-path: |
           frontend/package-lock.json
           backend/package-lock.json
-    
+
     - name: Install Frontend Dependencies
       run: |
         cd frontend
         npm ci
-        
+
     - name: Build Frontend
       run: |
         cd frontend
         npm run build
-        
+
     - name: Install Backend Dependencies
       run: |
         cd backend
         npm ci --production
-        
+
     - name: Create Production Directory
       run: |
         mkdir -p production
         cp -r frontend/build/* production/
         cp -r backend production/
-        
+
     - name: Create Environment File
       run: |
         cat > production/backend/.env << EOF
@@ -57,52 +58,52 @@ jobs:
         JWT_SECRET=${{ secrets.JWT_SECRET }}
         NODE_ENV=production
         EOF
-        
+
     - name: Create Start Script
       run: |
         cat > production/start.sh << 'EOF'
         #!/bin/bash
         echo "🚀 Iniciando servidor en producción..."
-        
+
         # Instalar dependencias si es necesario
         if [ ! -d "backend/node_modules" ]; then
             echo "📦 Instalando dependencias del backend..."
             cd backend && npm install --production && cd ..
         fi
-        
+
         # Iniciar servidor con PM2
         echo "🌐 Iniciando servidor backend con PM2..."
         cd backend
         pm2 start server.js --name "milena-backend" --env production
         pm2 save
-        
+
         echo "✅ Servidor iniciado con PM2"
         echo "🌍 Frontend disponible en: $SITE_URL"
         echo "🔧 Backend API disponible en: $SITE_URL/api/"
         EOF
-        
+
         chmod +x production/start.sh
-        
+
     - name: Setup SSH
       uses: webfactory/ssh-agent@v0.9.0
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-        
+
     - name: Deploy to Server
       run: |
         # Crear directorio en el servidor si no existe
         ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "mkdir -p ${{ secrets.DEPLOY_PATH }}"
-        
+
         # Subir archivos
         scp -o StrictHostKeyChecking=no -r production/* ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_PATH }}/
-        
+
         # Ejecutar script de inicio
         ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.DEPLOY_PATH }} && chmod +x start.sh && ./start.sh"
-        
+
     - name: Restart Nginx
       run: |
         ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "sudo systemctl reload nginx"
-        
+
     - name: Notify Deployment Success
       run: |
         echo "✅ Deployment completed successfully!"
